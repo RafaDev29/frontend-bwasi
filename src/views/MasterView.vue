@@ -82,7 +82,12 @@ export default {
             try {
                 const token = store.state.token;
                 const id = data._id;
-                const payload = { name: data.name };
+                const payload =
+                 { name: data.name ,
+                    businessName : data.businessName,
+                    username : data.user.username,
+                    password : data.user.password
+                 };
                 await updateCompaniesApi(token, payload, id);
                 closeEditForm();
                 closeLoading();
