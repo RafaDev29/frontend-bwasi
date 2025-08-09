@@ -1,4 +1,4 @@
-# Etapa 1: Generar los archivos de construcción (build) del proyecto Vue
+
 FROM node:14 AS builder
 
 # Establecer el directorio de trabajo
