@@ -1,0 +1,110 @@
+<template>
+  <v-text-field 
+    v-model="search" 
+    label="Buscar" 
+    prepend-inner-icon="mdi-magnify" 
+    variant="outlined" 
+    hide-details 
+    single-line 
+    class="mb-5 PT-3" 
+    density="compact">
+  </v-text-field>
+  
+  <v-card flat>
+    <v-data-table :headers="headers" :items="filteredItems" :search="search" density="compact" class="ma-2">
+      
+      <!-- Íconos visuales -->
+      <template v-slot:[`item.icon`]="{ item }">
+        <v-icon :class="item.icon" class="text-2xl"></v-icon>
+      </template>
+
+      <!-- Colores visuales -->
+      <template v-slot:[`item.color`]="{ item }">
+        <div :style="{ backgroundColor: item.color }" class="w-6 h-6 rounded-full border border-gray-300 "></div>
+      </template>
+
+      <!-- Íconos en la columna de acciones -->
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-icon small color="#099cb4" class="mr-4" @click="editItem(item)">
+          mdi-pencil
+        </v-icon>
+        <v-icon small color="red" @click="deleteItem(item)">
+          mdi-delete
+        </v-icon>
+      </template>
+    </v-data-table>
+  </v-card>
+</template>
+
+<script>
+import { ref, computed } from "vue";
+
+export default {
+  name: "DataTable",
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+  emits: ["deleteItem", "editItem", "viewAreas"],
+  setup(props, { emit }) {
+    const search = ref("");
+
+    const headers = ref([
+      { key: "id", title: "ID" },
+      { key: "name", title: "Nombre" },
+      { key: "color", title: "Color" },
+      { key: "icon", title: "Icono" },
+      { key: "actions", title: "Acciones", sortable: false },
+    ]);
+
+    const filteredItems = computed(() => {
+      if (!search.value) {
+        return indexedItems.value;
+      }
+      const searchTerm = search.value.toLowerCase();
+      return indexedItems.value.filter((item) =>
+        Object.values(item).some((val) =>
+          String(val).toLowerCase().includes(searchTerm)
+        )
+      );
+    });
+
+    const indexedItems = computed(() => {
+      return props.items.map((item, index) => ({
+        id: index + 1, // Agregar índice como id
+        ...item,
+      }));
+    });
+
+    const deleteItem = (item) => {
+      emit("deleteItem", item);
+    };
+
+    const editItem = (item) => {
+      emit("editItem", item);
+    };
+
+    const viewAreas = (areas) => {
+      emit("viewAreas", areas);
+    };
+
+    return {
+      search,
+      headers,
+      filteredItems,
+      deleteItem,
+      editItem,
+      viewAreas,
+    };
+  },
+};
+</script>
+
+<style scoped>
+/* Estilos específicos para los colores e íconos */
+.w-8.h-8 {
+  display: inline-block;
+}
+</style>
