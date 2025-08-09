@@ -20,8 +20,8 @@ let socket = null;
  */
 export function connectMonitoringSocket(onMonitoringUpdate, onError, customerid) {
   // URL estática para la conexión al servidor Socket.IO
-  const staticSocketURL = "http://67.205.184.183:3000"; // Reemplaza con tu URL de WebSocket
-  console.log(customerid , "<<<<>>>>>")
+  const staticSocketURL = "https://api.bwasi.maquiadev.com"; // Reemplaza con tu URL de WebSocket
+
   // Crear la conexión al servidor Socket.IO
   socket = io(staticSocketURL, {
     // transports: ["websocket"], // Forzar transporte WebSocket

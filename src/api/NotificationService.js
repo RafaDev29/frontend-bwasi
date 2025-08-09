@@ -10,7 +10,7 @@ let socket = null;
  * @param {String} customerid - ID del cliente para autenticación.
  */
 export function connectNotificationSocket(onNotificationUpdate, onGatewayUpdate, onError, customerid) {
-  const staticSocketURL = "http://67.205.184.183:3000";
+  const staticSocketURL = "https://api.bwasi.maquiadev.com";
 
   // Crear la conexión al servidor de Socket.IO
   socket = io(staticSocketURL, {
